@@ -1,187 +1,145 @@
-# DNN-NMT
+# Deep Neural Network-based Numerical Material Test
 -----
+<a id="1"></a>
+## Description
+The Deep Neural Network-based Numerical Material Test (DNN-NMT) project provides neural network (NN) structure and datasets for estimating biaxial stress-strain curves of aluminum alloy sheets from a pole figure image of crystallographic texture. The NN provided in this project can be used on <a href="https://dl.sony.com/ja/app/">Neural Network Console</a> (NNC) developed by Sony Network Communications Inc.<br>
 
-## Description (概要)
-DNN-NMT (Deep Neural Network-based Numerical Material Test) project provides a neural network (NN) structure for estimating biaxial stress-strain curves of aluminum alloy sheet from a pole figure image of crystallographic texture. DNN-NMT is based on <a href="https://dl.sony.com/ja/app/">Neural Network Console</a> (NNC) developed by Sony Network Communications Inc.<br>
-
-DNN-NMT (Deep Neural Network-based Numerical Material Test) プロジェクトでは, 集合組織を表す極点図の画像情報からアルミニウム合金板材の二軸応力-ひずみ曲線を推定するためのニューラルネットワーク(NN)の構造を提供します. DNN-NMTは, Sony Network Communicationsが開発した<a href="https://dl.sony.com/ja/app/">Neural Network Console</a> (NNC)に基づいています. <br>
-
-## Publication (出版物)
+## Publications
 1. K. Koenuma, A. Yamanaka, Ikumu Watanabe and Toshihiko Kuwabara, "Estimation of texture-dependent stress－strain curve and r-value of aluminum alloy sheet using deep learning", Journal of Japan Society for Technology of Plasticity, Vol. 61 No. 709 (2020), pp. 48-55. (in Japanese) <a href="https://doi.org/10.9773/sosei.61.48">doi.org/10.9773/sosei.61.48</a>
 2. A. Yamanaka, R. Kamijyo, K. Koenuma, I. Watanabe and T. Kuwabara, "Deep neural network approach to estimate biaxial stress-strain curves of sheet metals", in preparation
 
-## Contens (目次)
-1. [Description(概要)](#description)
-1. [Requirements (環境構築)](#requirements)
-1. [Demonstration (訓練済みDNN-NMTの使い方)](#demo)
-1. [Usage](#usage)
-    1. [Importing a layer structure of DNN-MNT to NNC (DNN-MNTのNNCへのインポート)](#DNNNMT構造のインポート)
-    1. [Training DNN-NMT (DNN-NMTの訓練)](#DNN-NMTの訓練)
-    1. [Importing a layer structure of trained DNN-MNT to NNC (訓練済みDNN-NMTのNNCへのインポート)](#訓練済みモデルのインポート)
-    1. [Re-training DNN-NMT (DNN-NMTの再訓練（転移学習）](#ニューラルネットワークの転移学習)
-    1. [Exporting trained DNN-NMT (訓練済みDNN-NMTのエクスポート)](#訓練済みモデルのエクスポート)
-    1. [Estimation of stress-strain curve using trained DNN-NMT (訓練済みDNN-NMTを用いた応力-ひずみ曲線の推定)](#訓練済みモデルを用いた応力ーひずみ曲線の推定)
-1. [Licence (ライセンス)](#licence)
-1. [Developers (開発者)](#author)
+## Contens
+1. [Description](#1)
+1. [Requirements](#2)
+1. [Demonstration](#3)
+1. [Usage](#4)
+    1. [Importing our NN to NNC](#5)
+    1. [Training NN](#6)
+    1. [Re-training NN (Transfer learning)](#7)
+    1. [Exporting trained NN](#8)
+    1. [Estimation of biaxial stress-strain curves using trained NN](#9)
+1. [Licence](#10)
+1. [Developers](#11)
 
-
+<a id="2"></a>
 ## Requirements
-- Neural Network Console can be used on Windows 10. <br>
-Neural Network Consoleは, Windows OS上で動作します.
+- Neural Network Console can be used on Windows 10. Please see: https://dl.sony.com/ja/app/
+- Installation of Neural Network Console can be found: https://dl.sony.com/ja/app/
+- Our trained NN has been tested using Python3.6.
+- If you want to try [Demonstration](#3), you need to do the following procedures:
 
-- Installation of Neural Network Console can be found [here](https://dl.sony.com).<br>
-  Neural Network Consoleのインストール方法は下記サイト参照してください.   
-[Windows版 - Neural Network Console - Sony](https://dl.sony.com/ja/app/)
-
-- Trained DNN-NMT has been tested on Python3.6. <br>
-訓練済みのDNN-NMTは, Python3.6で確認済みです.
-
-- If you want to try [Demo](#demo), you need: <br>
- 下記の[Demo](#demo)を試される場合は, 以下の環境構築してください.
-1. If you use use Anaconda (Miniconda), you need to do: <br>
-もし, Anaconda (Miniconda)を使用されている場合は, 以下のようにNNCを使える環境が必要です.
-
+1. If you use use Anaconda (or Miniconda) environment, you need to do:
 ```bach
 conda env create --file nnc_env.yaml
 conda activate nnc_env
 ```
 
-2.  If you do NOT use Anaconda (Miniconda), you can install libraries: <br>
-もしくは下記により必要なパッケージをインストールしてください.
-
+2.  If you do NOT use Anaconda (or Miniconda) environment, you need to install the following libraries:
 ```bash
 pip install numpy matplotlib scipy
 pip install nnabla
 ```
 
-
-## Demo
-- If you try this Demo, please see [Requirements](#requirements).<br>
-このDemoを試される場合には, [Requirements](#requirements)をご覧ください.
-
-- You can run the trained DNN-NMT with the following command and estimate biaxial stress-strain curves. <br>
-下記コマンドによりdrawSScurve.pyを実行することで, 訓練済みDNN-NMTを用いて二軸応力-ひずみ曲線を推定することができます.
-
+<a id="3"></a>
+## Demonstration
+- If you try this demonstration on your computer, please see [Requirements](#2).
+- You can run our trained NN using the following command and estimate biaxial stress-strain curves.
 ```bash
 python drawSScurve.py
 ```
 
-
+<a id="4"></a>
 ## Usage
-- [Official documents for Neural Network Console](https://support.dl.sony.com/docs/)<br>
-- [Neural Network Consoleの公式ドキュメント](https://support.dl.sony.com/docs-ja/)
+0. Overall usege of NNC please see: https://support.dl.sony.com/docs/
 
-#### DNN-NMTのNNCへのインポート
-- 以下の方法で, nntxtファイルをNNCにインポートすることで, DNN-NMTの構造や学習時の設定を読み込むことができます.  
+<a id="5"></a>
+#### Importing our NN to NNC
+- You can use the layer structure of our NN and the training parameters by importing "nntxt" file to NNC.
 
-1. NNCを起動し, New Projectを選択する.
-
+1. Launch NNC and select "New Project". <br>
 ![Fig1](./doc/fig1.png "Fig. 1")
 
-2. EDITタブを開き, ネットワークグラフ上を右クリックして表示されるポップアップメニューから  
-Import → nntxt, nnp, ONNXを選択する.
-
+2. Open "EDIT" tab and select "Import → nntxt, nnp, ONNX" by right-clicking a network graph.
 ![Fig. 2](./doc/fig2.png "Fig. 2")
 
-3. nntxtファイルを読み込む.  
+3. Read "nntxt" file. <br>
 ex) ./nnc_proj/model.nnp
 
-4. 読み込んだニューラルネットワークの名前がMainRuntimeになっている場合は, Mainに書き換えておく.
+4. If the name of imported NN is "MainRuntime", modify the name as "Main". <br>
 
-- 上記3において, nnpファイルをNNCにインポートすることで, DNN-NMTの構造に加えて訓練済みのパラメータなどを読み込むことができます.
+- You can import the layer structure of NN and the training parameters used for the training by importing "nnp" file to NNC.
 
-#### DNN-NMTの訓練
-- 本プロジェクトで提供する訓練データを用いて, DNN-NMTを訓練するには, 以下の手順にしたがってください.
 
+<a id="6"></a>
+#### Training NN
+- If you want to train our NN using the datasets provided in this project, you need to do the following procedures:
+
+1. You can download the datasets from Yamanaka research group@TUAT.
 <!-- TODO: ダウンロード先のリンクなどがあれば貼る -->
-1. ダウンロードした訓練データを./trainingdata/ フォルダに入れておく.
-
-2. 下記コマンドによりcreate_dataset.pyを実行することで, NNCで使用可能なデータセットのcsvファイルを作成することができます.  
-訓練データのcsvファイル： ./label/sscurve_train.csv  
-検証データのcsvファイル： ./label/sscurve_eval.csv  
-
+1. Save the datasets in the directory named "./trainingdata/".
+1. Run "create_dataset.py" by using the following command, then you can create csv files which can be used in NNC.
+- CSV file for training is saved in "./label/sscurve_train.csv".
+- CSV file for validation is saved in "./label/sscurve_eval.csv".
 ```bash
 python create_dataset.py
 ```
 
-3. NNCのDATASETタブを開き, Open Datasetを選択します(または, ショートカットCtrl + o). エクスプローラを操作し, 上記の手順で作成したcsvファイルを読み込みます.
-
+1. Open "DATASET" tab and select "Open Dataset". Then, read the above CSV files.
 ![Fig. 3](./doc/fig3.png "Fig. 3")
 <!-- TODO: 図 -->
 
-4. EDITタブを開き, ニューラルネットワークに誤差関数として二乗誤差(SquerdError)を接続する. SquerdError以外の回帰問題用の誤差関数(例えば, HuberLoss)であってもよい.  
-DNN-NMTには二つの出力層(Affine_4, Affine_5)があるため, 二つの出力層どちらに対しても誤差関数を接続する.
-
-5. Affine_4に接続した誤差関数のプロパティからT.Datasetを選択し, y → sと書き換える. もう一方の誤差関数では, y → eと書き換える.
-
+1. Open "EDIT" tab. Then, you need to connect the loss function, for example "SquerdError", to the Affine layers (Affine_4 and Affine_5).
+1. Change from "y" to s" in the property (T.Dataset) of loss function for Affine_4. On the other hand, for Affine_5, change from "y" to "e".  
 ![Fig. 4](./doc/fig4.png "Fig. 4")
 <!-- TODO: 図 -->
 
-6. CONFIGタブを開き, Global Configの設定画面からMax EpochやBatch Sizeを設定する. ex) Max Epoch: 100, Batch Size: 8  
-ただし, Batch Sizeを訓練データセットの数より大きくすることができないので注意する.  
-訓練時に使用される最適化アルゴリズムはCONFIGタブのOptimizerから選択する.
+1. Open "CONFIG" tab and enter the values of Max Epoch and Batch Size. For example, you can use Max Epoch = 100 and Batch Size = 8.
+1. Select the optimizing algorithm in "Optimizer" shown in "CONFIG" tab.
+1. Start training of NN by pushing "F5 button".
 
-7. 訓練実行ボタンをクリック(あるいは, ショートカット F5)することで, ニューラルネットワークの訓練が開始される.
 
-#### ニューラルネットワークの訓練(転移学習)
-- 訓練済みのDNN-NMTを新たなデータセットで再訓練する場合には, 以下の手順に従ってください.
+<a id="7"></a>
+#### Re-training NN (Transfer learning)
+- If you want to re-train our NN using your datasets, please do the following procedures:
 
-1. EDITタブ上のニューラルネットワークのうち, パラメータを固定するレイヤーを選択する.  
-例えば, 最後のAffineレイヤーを除くレイヤー (ConvolutionやBatchNormalization) を選択する.
-
-2. 選択したレイヤープロパティから, LRateMultiplierを0に設定する.  
-この操作により, 訓練済みのニューラルネットワークのパラメータが  
-新たに訓練するデータで更新されないようにする.
-
+1. Open "EDIT" tab and select the parameters which you want to fix. For example, you can select convolution and BatchNormalization layers.
+1. Enter 0 (zero) to "...LRateMultiplier" shown in the property of the selected laters. This prevents to change the parameters used in the trained NN.
 ![Fig. 5](./doc/fig5.png "Fig. 5")
 
-3. DATASETタブで転移先のデータを読み込み, 訓練を実行する.  
-LRateMultiplierプロパティが0に設定されていないパラメータのみ更新される.
+1. Load your datasets from "DATASET" tab and start training.
+1. <!-- TODO: 実験データのデータ構造に関する仕様を決めて，実験データから訓練データを作成するスクリプトをかく -->
+1. Please see https://support.dl.sony.com/docs-ja/ for the training procedure.
 
-4. <!-- TODO: 実験データのデータ構造に関する仕様を決めて，実験データから訓練データを作成するスクリプトをかく -->
 
-5. 訓練の実施方法は, [公式ドキュメント](https://support.dl.sony.com/docs-ja/)を参照してください.
+<a id="8"></a>
+#### Exporting trained NN
+- You can export the trained NN by following procedures:
 
-#### 訓練済みモデルのエクスポート
-- 訓練済みのDNN-NMTをエクスポートする場合には, 下記の手順に従ってください.
-
-1. NNCのTRAININGタブの左側に表示される学習結果リストから, エクスポートする学習結果を選択する.
-
-2. 選択した学習結果を右クリックして表示されるポップアップメニューからExportを選択し, その後Exportするファイル形式を選択する.  
+1. Open "TRAINING" tab and select "Export" by right-clicking the Results History. Then, you can select the format. <br>
 ex) Export → NNP (Neural Network Libraries file format)
-
 ![Fig. 6](./doc/fig6.png "Fig. 6")
 
-3. 上の例の場合, Exportされたファイルは, 学習結果ファイルの格納されたフォルダに  
-”model.nnp”のファイル名で生成される.
+1. For the case shown in the above figure, the exported file is saved in the training result folder and is named as "model.nnp”.
 
- - 学習結果ファイルは, プロジェクトファイル名の拡張子を除いたものに,  
-  “.files”を付加した名前のフォルダの下,  
-  さらに学習を実行した日付・時刻の名前のフォルダの下に保存されている.
 
-#### 訓練済みモデルを用いた応力ーひずみ曲線の推定
-- 訓練済みのDNN-NMTを用いて, 応力ーひずみ曲線の推定を行う方法は, 以下の通りです.
+#### Estimation of biaxial stress-strain curves using trained NN
+- You can estimate biaxial stress-strain curves using the trained NN by following procedures:
 
-1. NNCのEDITタブを開き, ネットワークグラフ上の作成したニューラルネットワークを右クリックで選択する.
-
-2. ポップアップメニューからExport → Python Code (NNabla)を選択する.  クリップボードにニューラルネットワークのpythonコードがコピーされる. このとき, 誤差関数のレイヤーは削除しておく.
-
+1. Open "EDIT" tab and select the NN structure by right-clicking.
+1. Select "Export → Python Code (NNabla)" and, then, Python code for the trained NN is copied to Clipboad. Note that you need to delete the loss function layers.
 ![Fig. 7](./doc/fig7.png "Fig. 7")
 
-3. [project_name_of_NNC].pyのようなpythonスクリプトを./nnc_projの下に作成し, 2. でコピーされたpythonコードを貼り付ける.
-
-4. estimate.pyを編集し, 上の手順で作成したニューラルネットワークを使用するよう書き換える.
-
+3. Create a python script named as "[project_name_of_NNC].py" in the directory "./nnc_proj" and paste the python code copied in the above Step 2.
+4. Edit "estimate.py" provided in this project so that you can use the NN named "[project_name_of_NNC].py".
 ```python
 # from nnc_proj.model import network  # ここを変える
 from nnc_proj.project_name_of_NNC import network
-
 nn.clear_parameters()
 # nn.parameter.load_parameters('./nnc_proj/model.nnp')  # ここを変える
 nn.parameter.load_parameters('NNCで作成したニューラルネットワークパラメータのファイル.nnp')
 ```
 
-1. drawSScurve.pyを実行する. 詳細は, [Demo](#demo)を参照されたい.
+1. Run "drawSScurve.py" and then you obtain biaxial stress-strain curves.
 
 ## Licence
 
