@@ -1,0 +1,2450 @@
+global_config {
+  default_context {
+    array_class: "CudaCachedArray"
+    device_id: "0"
+    backends: "cudnn:float"
+    backends: "cuda:float"
+    backends: "cpu:float"
+  }
+}
+training_config {
+  max_epoch: 10000
+  iter_per_epoch: 208
+  save_best: true
+  monitor_interval: 10
+}
+network {
+  name: "Main"
+  batch_size: 256
+  variable {
+    name: "Input"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 128 dim: 128 }
+  }
+  variable {
+    name: "Input_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 }
+  }
+  variable {
+    name: "Convolution/conv/W"
+    type: "Parameter"
+    shape: { dim: 16 dim: 1 dim: 7 dim: 7 }
+    initializer {
+      type: "NormalConvolutionHeForward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Convolution/conv/b"
+    type: "Parameter"
+    shape: { dim: 16 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization/bn/beta"
+    type: "Parameter"
+    shape: { dim: 1 dim: 16 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization/bn/gamma"
+    type: "Parameter"
+    shape: { dim: 1 dim: 16 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "BatchNormalization/bn/mean"
+    type: "Parameter"
+    shape: { dim: 1 dim: 16 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization/bn/var"
+    type: "Parameter"
+    shape: { dim: 1 dim: 16 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Convolution_2/conv/W"
+    type: "Parameter"
+    shape: { dim: 32 dim: 16 dim: 5 dim: 5 }
+    initializer {
+      type: "NormalConvolutionHeForward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Convolution_2/conv/b"
+    type: "Parameter"
+    shape: { dim: 32 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization_2/bn/beta"
+    type: "Parameter"
+    shape: { dim: 1 dim: 32 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization_2/bn/gamma"
+    type: "Parameter"
+    shape: { dim: 1 dim: 32 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "BatchNormalization_2/bn/mean"
+    type: "Parameter"
+    shape: { dim: 1 dim: 32 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization_2/bn/var"
+    type: "Parameter"
+    shape: { dim: 1 dim: 32 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Convolution_3/conv/W"
+    type: "Parameter"
+    shape: { dim: 64 dim: 32 dim: 5 dim: 5 }
+    initializer {
+      type: "NormalConvolutionHeForward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Convolution_3/conv/b"
+    type: "Parameter"
+    shape: { dim: 64 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization_7/bn/beta"
+    type: "Parameter"
+    shape: { dim: 1 dim: 64 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization_7/bn/gamma"
+    type: "Parameter"
+    shape: { dim: 1 dim: 64 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "BatchNormalization_7/bn/mean"
+    type: "Parameter"
+    shape: { dim: 1 dim: 64 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization_7/bn/var"
+    type: "Parameter"
+    shape: { dim: 1 dim: 64 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Affine_2/affine/W"
+    type: "Parameter"
+    shape: { dim: 65 dim: 512 }
+    initializer {
+      type: "NormalAffineGlorot"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Affine_2/affine/b"
+    type: "Parameter"
+    shape: { dim: 512 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Affine_3/affine/W"
+    type: "Parameter"
+    shape: { dim: 65 dim: 512 }
+    initializer {
+      type: "NormalAffineGlorot"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Affine_3/affine/b"
+    type: "Parameter"
+    shape: { dim: 512 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Affine_6/affine/W"
+    type: "Parameter"
+    shape: { dim: 512 dim: 512 }
+    initializer {
+      type: "NormalAffineGlorot"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Affine_6/affine/b"
+    type: "Parameter"
+    shape: { dim: 512 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Affine_7/affine/W"
+    type: "Parameter"
+    shape: { dim: 512 dim: 512 }
+    initializer {
+      type: "NormalAffineGlorot"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Affine_7/affine/b"
+    type: "Parameter"
+    shape: { dim: 512 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Affine_5/affine/W"
+    type: "Parameter"
+    shape: { dim: 512 dim: 50 dim: 2 }
+    initializer {
+      type: "NormalAffineGlorot"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Affine_5/affine/b"
+    type: "Parameter"
+    shape: { dim: 50 dim: 2 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Affine_4/affine/W"
+    type: "Parameter"
+    shape: { dim: 512 dim: 2 dim: 2 }
+    initializer {
+      type: "NormalAffineGlorot"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Affine_4/affine/b"
+    type: "Parameter"
+    shape: { dim: 2 dim: 2 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "SquaredError_3_T"
+    type: "Buffer"
+    shape: { dim:-1 dim: 2 dim: 2 }
+  }
+  variable {
+    name: "SquaredError_T"
+    type: "Buffer"
+    shape: { dim:-1 dim: 50 dim: 2 }
+  }
+  variable {
+    name: "Convolution"
+    type: "Buffer"
+    shape: { dim:-1 dim: 16 dim: 42 dim: 42 }
+  }
+  variable {
+    name: "BatchNormalization"
+    type: "Buffer"
+    shape: { dim:-1 dim: 16 dim: 42 dim: 42 }
+  }
+  variable {
+    name: "ELU"
+    type: "Buffer"
+    shape: { dim:-1 dim: 16 dim: 42 dim: 42 }
+  }
+  variable {
+    name: "MaxPooling"
+    type: "Buffer"
+    shape: { dim:-1 dim: 16 dim: 14 dim: 14 }
+  }
+  variable {
+    name: "Convolution_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 32 dim: 6 dim: 6 }
+  }
+  variable {
+    name: "BatchNormalization_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 32 dim: 6 dim: 6 }
+  }
+  variable {
+    name: "ELU_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 32 dim: 6 dim: 6 }
+  }
+  variable {
+    name: "Convolution_3"
+    type: "Buffer"
+    shape: { dim:-1 dim: 64 dim: 2 dim: 2 }
+  }
+  variable {
+    name: "BatchNormalization_7"
+    type: "Buffer"
+    shape: { dim:-1 dim: 64 dim: 2 dim: 2 }
+  }
+  variable {
+    name: "ELU_7"
+    type: "Buffer"
+    shape: { dim:-1 dim: 64 dim: 2 dim: 2 }
+  }
+  variable {
+    name: "MaxPooling_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 64 dim: 1 dim: 1 }
+  }
+  variable {
+    name: "Reshape"
+    type: "Buffer"
+    shape: { dim:-1 dim: 64 }
+  }
+  variable {
+    name: "Concatenate"
+    type: "Buffer"
+    shape: { dim:-1 dim: 65 }
+  }
+  variable {
+    name: "Affine_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "Affine_3"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "ELU_3"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "ELU_4"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "Affine_6"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "Affine_7"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "ELU_5"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "ELU_6"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "Affine_5"
+    type: "Buffer"
+    shape: { dim:-1 dim: 50 dim: 2 }
+  }
+  variable {
+    name: "Affine_4"
+    type: "Buffer"
+    shape: { dim:-1 dim: 2 dim: 2 }
+  }
+  variable {
+    name: "SquaredError_3"
+    type: "Buffer"
+    shape: { dim:-1 dim: 2 dim: 2 }
+  }
+  variable {
+    name: "SquaredError"
+    type: "Buffer"
+    shape: { dim:-1 dim: 50 dim: 2 }
+  }
+  function {
+    name: "Convolution"
+    type: "Convolution"
+    input: "Input"
+    input: "Convolution/conv/W"
+    input: "Convolution/conv/b"
+    output: "Convolution"
+    convolution_param {
+      pad: { dim: 1 dim: 1 }
+      stride: { dim: 3 dim: 3 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "BatchNormalization"
+    type: "BatchNormalization"
+    input: "Convolution"
+    input: "BatchNormalization/bn/beta"
+    input: "BatchNormalization/bn/gamma"
+    input: "BatchNormalization/bn/mean"
+    input: "BatchNormalization/bn/var"
+    output: "BatchNormalization"
+    batch_normalization_param {
+      axes: 1
+      decay_rate: 0.9
+      eps: 0.0001
+      batch_stat: True
+    }
+  }
+  function {
+    name: "ELU"
+    type: "ELU"
+    input: "BatchNormalization"
+    output: "ELU"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "MaxPooling"
+    type: "MaxPooling"
+    input: "ELU"
+    output: "MaxPooling"
+    max_pooling_param {
+      kernel: { dim: 3 dim: 3 }
+      stride: { dim: 3 dim: 3 }
+      ignore_border: true
+      pad: { dim: 0 dim: 0 }
+      channel_last: false
+    }
+  }
+  function {
+    name: "Convolution_2"
+    type: "Convolution"
+    input: "MaxPooling"
+    input: "Convolution_2/conv/W"
+    input: "Convolution_2/conv/b"
+    output: "Convolution_2"
+    convolution_param {
+      pad: { dim: 1 dim: 1 }
+      stride: { dim: 2 dim: 2 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "BatchNormalization_2"
+    type: "BatchNormalization"
+    input: "Convolution_2"
+    input: "BatchNormalization_2/bn/beta"
+    input: "BatchNormalization_2/bn/gamma"
+    input: "BatchNormalization_2/bn/mean"
+    input: "BatchNormalization_2/bn/var"
+    output: "BatchNormalization_2"
+    batch_normalization_param {
+      axes: 1
+      decay_rate: 0.9
+      eps: 0.0001
+      batch_stat: True
+    }
+  }
+  function {
+    name: "ELU_2"
+    type: "ELU"
+    input: "BatchNormalization_2"
+    output: "ELU_2"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "Convolution_3"
+    type: "Convolution"
+    input: "ELU_2"
+    input: "Convolution_3/conv/W"
+    input: "Convolution_3/conv/b"
+    output: "Convolution_3"
+    convolution_param {
+      pad: { dim: 0 dim: 0 }
+      stride: { dim: 1 dim: 1 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "BatchNormalization_7"
+    type: "BatchNormalization"
+    input: "Convolution_3"
+    input: "BatchNormalization_7/bn/beta"
+    input: "BatchNormalization_7/bn/gamma"
+    input: "BatchNormalization_7/bn/mean"
+    input: "BatchNormalization_7/bn/var"
+    output: "BatchNormalization_7"
+    batch_normalization_param {
+      axes: 1
+      decay_rate: 0.9
+      eps: 0.0001
+      batch_stat: True
+    }
+  }
+  function {
+    name: "ELU_7"
+    type: "ELU"
+    input: "BatchNormalization_7"
+    output: "ELU_7"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "MaxPooling_2"
+    type: "MaxPooling"
+    input: "ELU_7"
+    output: "MaxPooling_2"
+    max_pooling_param {
+      kernel: { dim: 2 dim: 2 }
+      stride: { dim: 2 dim: 2 }
+      ignore_border: true
+      pad: { dim: 0 dim: 0 }
+      channel_last: false
+    }
+  }
+  function {
+    name: "Reshape"
+    type: "Reshape"
+    input: "MaxPooling_2"
+    output: "Reshape"
+    reshape_param {
+      shape: { dim: -1 dim: 64 }
+    }
+  }
+  function {
+    name: "Concatenate"
+    type: "Concatenate"
+    input: "Input_2"
+    input: "Reshape"
+    output: "Concatenate"
+    concatenate_param {
+      axis: 1
+    }
+  }
+  function {
+    name: "Affine_2"
+    type: "Affine"
+    input: "Concatenate"
+    input: "Affine_2/affine/W"
+    input: "Affine_2/affine/b"
+    output: "Affine_2"
+    affine_param {
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Affine_3"
+    type: "Affine"
+    input: "Concatenate"
+    input: "Affine_3/affine/W"
+    input: "Affine_3/affine/b"
+    output: "Affine_3"
+    affine_param {
+      base_axis: 1
+    }
+  }
+  function {
+    name: "ELU_3"
+    type: "ELU"
+    input: "Affine_3"
+    output: "ELU_3"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "ELU_4"
+    type: "ELU"
+    input: "Affine_2"
+    output: "ELU_4"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "Affine_6"
+    type: "Affine"
+    input: "ELU_4"
+    input: "Affine_6/affine/W"
+    input: "Affine_6/affine/b"
+    output: "Affine_6"
+    affine_param {
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Affine_7"
+    type: "Affine"
+    input: "ELU_3"
+    input: "Affine_7/affine/W"
+    input: "Affine_7/affine/b"
+    output: "Affine_7"
+    affine_param {
+      base_axis: 1
+    }
+  }
+  function {
+    name: "ELU_5"
+    type: "ELU"
+    input: "Affine_7"
+    output: "ELU_5"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "ELU_6"
+    type: "ELU"
+    input: "Affine_6"
+    output: "ELU_6"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "Affine_5"
+    type: "Affine"
+    input: "ELU_5"
+    input: "Affine_5/affine/W"
+    input: "Affine_5/affine/b"
+    output: "Affine_5"
+    affine_param {
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Affine_4"
+    type: "Affine"
+    input: "ELU_6"
+    input: "Affine_4/affine/W"
+    input: "Affine_4/affine/b"
+    output: "Affine_4"
+    affine_param {
+      base_axis: 1
+    }
+  }
+  function {
+    name: "SquaredError_3"
+    type: "SquaredError"
+    input: "Affine_4"
+    input: "SquaredError_3_T"
+    output: "SquaredError_3"
+  }
+  function {
+    name: "SquaredError"
+    type: "SquaredError"
+    input: "Affine_5"
+    input: "SquaredError_T"
+    output: "SquaredError"
+  }
+}
+network {
+  name: "MainValidation"
+  batch_size: 256
+  variable {
+    name: "Input"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 128 dim: 128 }
+  }
+  variable {
+    name: "Input_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 }
+  }
+  variable {
+    name: "Convolution/conv/W"
+    type: "Parameter"
+    shape: { dim: 16 dim: 1 dim: 7 dim: 7 }
+    initializer {
+      type: "NormalConvolutionHeForward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Convolution/conv/b"
+    type: "Parameter"
+    shape: { dim: 16 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization/bn/beta"
+    type: "Parameter"
+    shape: { dim: 1 dim: 16 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization/bn/gamma"
+    type: "Parameter"
+    shape: { dim: 1 dim: 16 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "BatchNormalization/bn/mean"
+    type: "Parameter"
+    shape: { dim: 1 dim: 16 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization/bn/var"
+    type: "Parameter"
+    shape: { dim: 1 dim: 16 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Convolution_2/conv/W"
+    type: "Parameter"
+    shape: { dim: 32 dim: 16 dim: 5 dim: 5 }
+    initializer {
+      type: "NormalConvolutionHeForward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Convolution_2/conv/b"
+    type: "Parameter"
+    shape: { dim: 32 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization_2/bn/beta"
+    type: "Parameter"
+    shape: { dim: 1 dim: 32 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization_2/bn/gamma"
+    type: "Parameter"
+    shape: { dim: 1 dim: 32 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "BatchNormalization_2/bn/mean"
+    type: "Parameter"
+    shape: { dim: 1 dim: 32 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization_2/bn/var"
+    type: "Parameter"
+    shape: { dim: 1 dim: 32 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Convolution_3/conv/W"
+    type: "Parameter"
+    shape: { dim: 64 dim: 32 dim: 5 dim: 5 }
+    initializer {
+      type: "NormalConvolutionHeForward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Convolution_3/conv/b"
+    type: "Parameter"
+    shape: { dim: 64 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization_7/bn/beta"
+    type: "Parameter"
+    shape: { dim: 1 dim: 64 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization_7/bn/gamma"
+    type: "Parameter"
+    shape: { dim: 1 dim: 64 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "BatchNormalization_7/bn/mean"
+    type: "Parameter"
+    shape: { dim: 1 dim: 64 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization_7/bn/var"
+    type: "Parameter"
+    shape: { dim: 1 dim: 64 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Affine_2/affine/W"
+    type: "Parameter"
+    shape: { dim: 65 dim: 512 }
+    initializer {
+      type: "NormalAffineGlorot"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Affine_2/affine/b"
+    type: "Parameter"
+    shape: { dim: 512 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Affine_3/affine/W"
+    type: "Parameter"
+    shape: { dim: 65 dim: 512 }
+    initializer {
+      type: "NormalAffineGlorot"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Affine_3/affine/b"
+    type: "Parameter"
+    shape: { dim: 512 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Affine_6/affine/W"
+    type: "Parameter"
+    shape: { dim: 512 dim: 512 }
+    initializer {
+      type: "NormalAffineGlorot"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Affine_6/affine/b"
+    type: "Parameter"
+    shape: { dim: 512 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Affine_7/affine/W"
+    type: "Parameter"
+    shape: { dim: 512 dim: 512 }
+    initializer {
+      type: "NormalAffineGlorot"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Affine_7/affine/b"
+    type: "Parameter"
+    shape: { dim: 512 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Affine_5/affine/W"
+    type: "Parameter"
+    shape: { dim: 512 dim: 50 dim: 2 }
+    initializer {
+      type: "NormalAffineGlorot"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Affine_5/affine/b"
+    type: "Parameter"
+    shape: { dim: 50 dim: 2 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Affine_4/affine/W"
+    type: "Parameter"
+    shape: { dim: 512 dim: 2 dim: 2 }
+    initializer {
+      type: "NormalAffineGlorot"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Affine_4/affine/b"
+    type: "Parameter"
+    shape: { dim: 2 dim: 2 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "SquaredError_3_T"
+    type: "Buffer"
+    shape: { dim:-1 dim: 2 dim: 2 }
+  }
+  variable {
+    name: "SquaredError_T"
+    type: "Buffer"
+    shape: { dim:-1 dim: 50 dim: 2 }
+  }
+  variable {
+    name: "Convolution"
+    type: "Buffer"
+    shape: { dim:-1 dim: 16 dim: 42 dim: 42 }
+  }
+  variable {
+    name: "BatchNormalization"
+    type: "Buffer"
+    shape: { dim:-1 dim: 16 dim: 42 dim: 42 }
+  }
+  variable {
+    name: "ELU"
+    type: "Buffer"
+    shape: { dim:-1 dim: 16 dim: 42 dim: 42 }
+  }
+  variable {
+    name: "MaxPooling"
+    type: "Buffer"
+    shape: { dim:-1 dim: 16 dim: 14 dim: 14 }
+  }
+  variable {
+    name: "Convolution_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 32 dim: 6 dim: 6 }
+  }
+  variable {
+    name: "BatchNormalization_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 32 dim: 6 dim: 6 }
+  }
+  variable {
+    name: "ELU_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 32 dim: 6 dim: 6 }
+  }
+  variable {
+    name: "Convolution_3"
+    type: "Buffer"
+    shape: { dim:-1 dim: 64 dim: 2 dim: 2 }
+  }
+  variable {
+    name: "BatchNormalization_7"
+    type: "Buffer"
+    shape: { dim:-1 dim: 64 dim: 2 dim: 2 }
+  }
+  variable {
+    name: "ELU_7"
+    type: "Buffer"
+    shape: { dim:-1 dim: 64 dim: 2 dim: 2 }
+  }
+  variable {
+    name: "MaxPooling_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 64 dim: 1 dim: 1 }
+  }
+  variable {
+    name: "Reshape"
+    type: "Buffer"
+    shape: { dim:-1 dim: 64 }
+  }
+  variable {
+    name: "Concatenate"
+    type: "Buffer"
+    shape: { dim:-1 dim: 65 }
+  }
+  variable {
+    name: "Affine_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "Affine_3"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "ELU_3"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "ELU_4"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "Affine_6"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "Affine_7"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "ELU_5"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "ELU_6"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "Affine_5"
+    type: "Buffer"
+    shape: { dim:-1 dim: 50 dim: 2 }
+  }
+  variable {
+    name: "Affine_4"
+    type: "Buffer"
+    shape: { dim:-1 dim: 2 dim: 2 }
+  }
+  variable {
+    name: "SquaredError_3"
+    type: "Buffer"
+    shape: { dim:-1 dim: 2 dim: 2 }
+  }
+  variable {
+    name: "SquaredError"
+    type: "Buffer"
+    shape: { dim:-1 dim: 50 dim: 2 }
+  }
+  function {
+    name: "Convolution"
+    type: "Convolution"
+    input: "Input"
+    input: "Convolution/conv/W"
+    input: "Convolution/conv/b"
+    output: "Convolution"
+    convolution_param {
+      pad: { dim: 1 dim: 1 }
+      stride: { dim: 3 dim: 3 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "BatchNormalization"
+    type: "BatchNormalization"
+    input: "Convolution"
+    input: "BatchNormalization/bn/beta"
+    input: "BatchNormalization/bn/gamma"
+    input: "BatchNormalization/bn/mean"
+    input: "BatchNormalization/bn/var"
+    output: "BatchNormalization"
+    batch_normalization_param {
+      axes: 1
+      decay_rate: 0.9
+      eps: 0.0001
+      batch_stat: False
+    }
+  }
+  function {
+    name: "ELU"
+    type: "ELU"
+    input: "BatchNormalization"
+    output: "ELU"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "MaxPooling"
+    type: "MaxPooling"
+    input: "ELU"
+    output: "MaxPooling"
+    max_pooling_param {
+      kernel: { dim: 3 dim: 3 }
+      stride: { dim: 3 dim: 3 }
+      ignore_border: true
+      pad: { dim: 0 dim: 0 }
+      channel_last: false
+    }
+  }
+  function {
+    name: "Convolution_2"
+    type: "Convolution"
+    input: "MaxPooling"
+    input: "Convolution_2/conv/W"
+    input: "Convolution_2/conv/b"
+    output: "Convolution_2"
+    convolution_param {
+      pad: { dim: 1 dim: 1 }
+      stride: { dim: 2 dim: 2 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "BatchNormalization_2"
+    type: "BatchNormalization"
+    input: "Convolution_2"
+    input: "BatchNormalization_2/bn/beta"
+    input: "BatchNormalization_2/bn/gamma"
+    input: "BatchNormalization_2/bn/mean"
+    input: "BatchNormalization_2/bn/var"
+    output: "BatchNormalization_2"
+    batch_normalization_param {
+      axes: 1
+      decay_rate: 0.9
+      eps: 0.0001
+      batch_stat: False
+    }
+  }
+  function {
+    name: "ELU_2"
+    type: "ELU"
+    input: "BatchNormalization_2"
+    output: "ELU_2"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "Convolution_3"
+    type: "Convolution"
+    input: "ELU_2"
+    input: "Convolution_3/conv/W"
+    input: "Convolution_3/conv/b"
+    output: "Convolution_3"
+    convolution_param {
+      pad: { dim: 0 dim: 0 }
+      stride: { dim: 1 dim: 1 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "BatchNormalization_7"
+    type: "BatchNormalization"
+    input: "Convolution_3"
+    input: "BatchNormalization_7/bn/beta"
+    input: "BatchNormalization_7/bn/gamma"
+    input: "BatchNormalization_7/bn/mean"
+    input: "BatchNormalization_7/bn/var"
+    output: "BatchNormalization_7"
+    batch_normalization_param {
+      axes: 1
+      decay_rate: 0.9
+      eps: 0.0001
+      batch_stat: False
+    }
+  }
+  function {
+    name: "ELU_7"
+    type: "ELU"
+    input: "BatchNormalization_7"
+    output: "ELU_7"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "MaxPooling_2"
+    type: "MaxPooling"
+    input: "ELU_7"
+    output: "MaxPooling_2"
+    max_pooling_param {
+      kernel: { dim: 2 dim: 2 }
+      stride: { dim: 2 dim: 2 }
+      ignore_border: true
+      pad: { dim: 0 dim: 0 }
+      channel_last: false
+    }
+  }
+  function {
+    name: "Reshape"
+    type: "Reshape"
+    input: "MaxPooling_2"
+    output: "Reshape"
+    reshape_param {
+      shape: { dim: -1 dim: 64 }
+    }
+  }
+  function {
+    name: "Concatenate"
+    type: "Concatenate"
+    input: "Input_2"
+    input: "Reshape"
+    output: "Concatenate"
+    concatenate_param {
+      axis: 1
+    }
+  }
+  function {
+    name: "Affine_2"
+    type: "Affine"
+    input: "Concatenate"
+    input: "Affine_2/affine/W"
+    input: "Affine_2/affine/b"
+    output: "Affine_2"
+    affine_param {
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Affine_3"
+    type: "Affine"
+    input: "Concatenate"
+    input: "Affine_3/affine/W"
+    input: "Affine_3/affine/b"
+    output: "Affine_3"
+    affine_param {
+      base_axis: 1
+    }
+  }
+  function {
+    name: "ELU_3"
+    type: "ELU"
+    input: "Affine_3"
+    output: "ELU_3"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "ELU_4"
+    type: "ELU"
+    input: "Affine_2"
+    output: "ELU_4"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "Affine_6"
+    type: "Affine"
+    input: "ELU_4"
+    input: "Affine_6/affine/W"
+    input: "Affine_6/affine/b"
+    output: "Affine_6"
+    affine_param {
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Affine_7"
+    type: "Affine"
+    input: "ELU_3"
+    input: "Affine_7/affine/W"
+    input: "Affine_7/affine/b"
+    output: "Affine_7"
+    affine_param {
+      base_axis: 1
+    }
+  }
+  function {
+    name: "ELU_5"
+    type: "ELU"
+    input: "Affine_7"
+    output: "ELU_5"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "ELU_6"
+    type: "ELU"
+    input: "Affine_6"
+    output: "ELU_6"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "Affine_5"
+    type: "Affine"
+    input: "ELU_5"
+    input: "Affine_5/affine/W"
+    input: "Affine_5/affine/b"
+    output: "Affine_5"
+    affine_param {
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Affine_4"
+    type: "Affine"
+    input: "ELU_6"
+    input: "Affine_4/affine/W"
+    input: "Affine_4/affine/b"
+    output: "Affine_4"
+    affine_param {
+      base_axis: 1
+    }
+  }
+  function {
+    name: "SquaredError_3"
+    type: "SquaredError"
+    input: "Affine_4"
+    input: "SquaredError_3_T"
+    output: "SquaredError_3"
+  }
+  function {
+    name: "SquaredError"
+    type: "SquaredError"
+    input: "Affine_5"
+    input: "SquaredError_T"
+    output: "SquaredError"
+  }
+}
+network {
+  name: "MainRuntime"
+  batch_size: 256
+  variable {
+    name: "Input"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 dim: 128 dim: 128 }
+  }
+  variable {
+    name: "Input_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 1 }
+  }
+  variable {
+    name: "Convolution/conv/W"
+    type: "Parameter"
+    shape: { dim: 16 dim: 1 dim: 7 dim: 7 }
+    initializer {
+      type: "NormalConvolutionHeForward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Convolution/conv/b"
+    type: "Parameter"
+    shape: { dim: 16 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization/bn/beta"
+    type: "Parameter"
+    shape: { dim: 1 dim: 16 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization/bn/gamma"
+    type: "Parameter"
+    shape: { dim: 1 dim: 16 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "BatchNormalization/bn/mean"
+    type: "Parameter"
+    shape: { dim: 1 dim: 16 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization/bn/var"
+    type: "Parameter"
+    shape: { dim: 1 dim: 16 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Convolution_2/conv/W"
+    type: "Parameter"
+    shape: { dim: 32 dim: 16 dim: 5 dim: 5 }
+    initializer {
+      type: "NormalConvolutionHeForward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Convolution_2/conv/b"
+    type: "Parameter"
+    shape: { dim: 32 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization_2/bn/beta"
+    type: "Parameter"
+    shape: { dim: 1 dim: 32 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization_2/bn/gamma"
+    type: "Parameter"
+    shape: { dim: 1 dim: 32 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "BatchNormalization_2/bn/mean"
+    type: "Parameter"
+    shape: { dim: 1 dim: 32 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization_2/bn/var"
+    type: "Parameter"
+    shape: { dim: 1 dim: 32 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Convolution_3/conv/W"
+    type: "Parameter"
+    shape: { dim: 64 dim: 32 dim: 5 dim: 5 }
+    initializer {
+      type: "NormalConvolutionHeForward"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Convolution_3/conv/b"
+    type: "Parameter"
+    shape: { dim: 64 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization_7/bn/beta"
+    type: "Parameter"
+    shape: { dim: 1 dim: 64 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization_7/bn/gamma"
+    type: "Parameter"
+    shape: { dim: 1 dim: 64 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "BatchNormalization_7/bn/mean"
+    type: "Parameter"
+    shape: { dim: 1 dim: 64 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "BatchNormalization_7/bn/var"
+    type: "Parameter"
+    shape: { dim: 1 dim: 64 dim: 1 dim: 1 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Affine_2/affine/W"
+    type: "Parameter"
+    shape: { dim: 65 dim: 512 }
+    initializer {
+      type: "NormalAffineGlorot"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Affine_2/affine/b"
+    type: "Parameter"
+    shape: { dim: 512 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Affine_3/affine/W"
+    type: "Parameter"
+    shape: { dim: 65 dim: 512 }
+    initializer {
+      type: "NormalAffineGlorot"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Affine_3/affine/b"
+    type: "Parameter"
+    shape: { dim: 512 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Affine_6/affine/W"
+    type: "Parameter"
+    shape: { dim: 512 dim: 512 }
+    initializer {
+      type: "NormalAffineGlorot"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Affine_6/affine/b"
+    type: "Parameter"
+    shape: { dim: 512 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Affine_7/affine/W"
+    type: "Parameter"
+    shape: { dim: 512 dim: 512 }
+    initializer {
+      type: "NormalAffineGlorot"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Affine_7/affine/b"
+    type: "Parameter"
+    shape: { dim: 512 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Affine_5/affine/W"
+    type: "Parameter"
+    shape: { dim: 512 dim: 50 dim: 2 }
+    initializer {
+      type: "NormalAffineGlorot"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Affine_5/affine/b"
+    type: "Parameter"
+    shape: { dim: 50 dim: 2 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Affine_4/affine/W"
+    type: "Parameter"
+    shape: { dim: 512 dim: 2 dim: 2 }
+    initializer {
+      type: "NormalAffineGlorot"
+      multiplier: 1
+    }
+  }
+  variable {
+    name: "Affine_4/affine/b"
+    type: "Parameter"
+    shape: { dim: 2 dim: 2 }
+    initializer {
+      type: "Constant"
+      multiplier: 0
+    }
+  }
+  variable {
+    name: "Convolution"
+    type: "Buffer"
+    shape: { dim:-1 dim: 16 dim: 42 dim: 42 }
+  }
+  variable {
+    name: "BatchNormalization"
+    type: "Buffer"
+    shape: { dim:-1 dim: 16 dim: 42 dim: 42 }
+  }
+  variable {
+    name: "ELU"
+    type: "Buffer"
+    shape: { dim:-1 dim: 16 dim: 42 dim: 42 }
+  }
+  variable {
+    name: "MaxPooling"
+    type: "Buffer"
+    shape: { dim:-1 dim: 16 dim: 14 dim: 14 }
+  }
+  variable {
+    name: "Convolution_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 32 dim: 6 dim: 6 }
+  }
+  variable {
+    name: "BatchNormalization_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 32 dim: 6 dim: 6 }
+  }
+  variable {
+    name: "ELU_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 32 dim: 6 dim: 6 }
+  }
+  variable {
+    name: "Convolution_3"
+    type: "Buffer"
+    shape: { dim:-1 dim: 64 dim: 2 dim: 2 }
+  }
+  variable {
+    name: "BatchNormalization_7"
+    type: "Buffer"
+    shape: { dim:-1 dim: 64 dim: 2 dim: 2 }
+  }
+  variable {
+    name: "ELU_7"
+    type: "Buffer"
+    shape: { dim:-1 dim: 64 dim: 2 dim: 2 }
+  }
+  variable {
+    name: "MaxPooling_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 64 dim: 1 dim: 1 }
+  }
+  variable {
+    name: "Reshape"
+    type: "Buffer"
+    shape: { dim:-1 dim: 64 }
+  }
+  variable {
+    name: "Concatenate"
+    type: "Buffer"
+    shape: { dim:-1 dim: 65 }
+  }
+  variable {
+    name: "Affine_2"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "Affine_3"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "ELU_3"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "ELU_4"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "Affine_6"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "Affine_7"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "ELU_5"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "ELU_6"
+    type: "Buffer"
+    shape: { dim:-1 dim: 512 }
+  }
+  variable {
+    name: "Affine_5"
+    type: "Buffer"
+    shape: { dim:-1 dim: 50 dim: 2 }
+  }
+  variable {
+    name: "Affine_4"
+    type: "Buffer"
+    shape: { dim:-1 dim: 2 dim: 2 }
+  }
+  function {
+    name: "Convolution"
+    type: "Convolution"
+    input: "Input"
+    input: "Convolution/conv/W"
+    input: "Convolution/conv/b"
+    output: "Convolution"
+    convolution_param {
+      pad: { dim: 1 dim: 1 }
+      stride: { dim: 3 dim: 3 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "BatchNormalization"
+    type: "BatchNormalization"
+    input: "Convolution"
+    input: "BatchNormalization/bn/beta"
+    input: "BatchNormalization/bn/gamma"
+    input: "BatchNormalization/bn/mean"
+    input: "BatchNormalization/bn/var"
+    output: "BatchNormalization"
+    batch_normalization_param {
+      axes: 1
+      decay_rate: 0.9
+      eps: 0.0001
+      batch_stat: False
+    }
+  }
+  function {
+    name: "ELU"
+    type: "ELU"
+    input: "BatchNormalization"
+    output: "ELU"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "MaxPooling"
+    type: "MaxPooling"
+    input: "ELU"
+    output: "MaxPooling"
+    max_pooling_param {
+      kernel: { dim: 3 dim: 3 }
+      stride: { dim: 3 dim: 3 }
+      ignore_border: true
+      pad: { dim: 0 dim: 0 }
+      channel_last: false
+    }
+  }
+  function {
+    name: "Convolution_2"
+    type: "Convolution"
+    input: "MaxPooling"
+    input: "Convolution_2/conv/W"
+    input: "Convolution_2/conv/b"
+    output: "Convolution_2"
+    convolution_param {
+      pad: { dim: 1 dim: 1 }
+      stride: { dim: 2 dim: 2 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "BatchNormalization_2"
+    type: "BatchNormalization"
+    input: "Convolution_2"
+    input: "BatchNormalization_2/bn/beta"
+    input: "BatchNormalization_2/bn/gamma"
+    input: "BatchNormalization_2/bn/mean"
+    input: "BatchNormalization_2/bn/var"
+    output: "BatchNormalization_2"
+    batch_normalization_param {
+      axes: 1
+      decay_rate: 0.9
+      eps: 0.0001
+      batch_stat: False
+    }
+  }
+  function {
+    name: "ELU_2"
+    type: "ELU"
+    input: "BatchNormalization_2"
+    output: "ELU_2"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "Convolution_3"
+    type: "Convolution"
+    input: "ELU_2"
+    input: "Convolution_3/conv/W"
+    input: "Convolution_3/conv/b"
+    output: "Convolution_3"
+    convolution_param {
+      pad: { dim: 0 dim: 0 }
+      stride: { dim: 1 dim: 1 }
+      dilation: { dim: 1 dim: 1 }
+      group: 1
+      channel_last: false
+      base_axis: 1
+    }
+  }
+  function {
+    name: "BatchNormalization_7"
+    type: "BatchNormalization"
+    input: "Convolution_3"
+    input: "BatchNormalization_7/bn/beta"
+    input: "BatchNormalization_7/bn/gamma"
+    input: "BatchNormalization_7/bn/mean"
+    input: "BatchNormalization_7/bn/var"
+    output: "BatchNormalization_7"
+    batch_normalization_param {
+      axes: 1
+      decay_rate: 0.9
+      eps: 0.0001
+      batch_stat: False
+    }
+  }
+  function {
+    name: "ELU_7"
+    type: "ELU"
+    input: "BatchNormalization_7"
+    output: "ELU_7"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "MaxPooling_2"
+    type: "MaxPooling"
+    input: "ELU_7"
+    output: "MaxPooling_2"
+    max_pooling_param {
+      kernel: { dim: 2 dim: 2 }
+      stride: { dim: 2 dim: 2 }
+      ignore_border: true
+      pad: { dim: 0 dim: 0 }
+      channel_last: false
+    }
+  }
+  function {
+    name: "Reshape"
+    type: "Reshape"
+    input: "MaxPooling_2"
+    output: "Reshape"
+    reshape_param {
+      shape: { dim: -1 dim: 64 }
+    }
+  }
+  function {
+    name: "Concatenate"
+    type: "Concatenate"
+    input: "Input_2"
+    input: "Reshape"
+    output: "Concatenate"
+    concatenate_param {
+      axis: 1
+    }
+  }
+  function {
+    name: "Affine_2"
+    type: "Affine"
+    input: "Concatenate"
+    input: "Affine_2/affine/W"
+    input: "Affine_2/affine/b"
+    output: "Affine_2"
+    affine_param {
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Affine_3"
+    type: "Affine"
+    input: "Concatenate"
+    input: "Affine_3/affine/W"
+    input: "Affine_3/affine/b"
+    output: "Affine_3"
+    affine_param {
+      base_axis: 1
+    }
+  }
+  function {
+    name: "ELU_3"
+    type: "ELU"
+    input: "Affine_3"
+    output: "ELU_3"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "ELU_4"
+    type: "ELU"
+    input: "Affine_2"
+    output: "ELU_4"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "Affine_6"
+    type: "Affine"
+    input: "ELU_4"
+    input: "Affine_6/affine/W"
+    input: "Affine_6/affine/b"
+    output: "Affine_6"
+    affine_param {
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Affine_7"
+    type: "Affine"
+    input: "ELU_3"
+    input: "Affine_7/affine/W"
+    input: "Affine_7/affine/b"
+    output: "Affine_7"
+    affine_param {
+      base_axis: 1
+    }
+  }
+  function {
+    name: "ELU_5"
+    type: "ELU"
+    input: "Affine_7"
+    output: "ELU_5"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "ELU_6"
+    type: "ELU"
+    input: "Affine_6"
+    output: "ELU_6"
+    elu_param {
+      alpha: 1
+    }
+  }
+  function {
+    name: "Affine_5"
+    type: "Affine"
+    input: "ELU_5"
+    input: "Affine_5/affine/W"
+    input: "Affine_5/affine/b"
+    output: "Affine_5"
+    affine_param {
+      base_axis: 1
+    }
+  }
+  function {
+    name: "Affine_4"
+    type: "Affine"
+    input: "ELU_6"
+    input: "Affine_4/affine/W"
+    input: "Affine_4/affine/b"
+    output: "Affine_4"
+    affine_param {
+      base_axis: 1
+    }
+  }
+}
+dataset {
+  name: "Training"
+  uri: "C:\\workspace\\sscurve_estimation\\label\\sscurve_train2d.csv"
+  cache_dir: "C:\\workspace\\sscurve_estimation\\label\\sscurve_train2d.cache"
+  overwrite_cache: true
+  create_cache_explicitly: true
+  shuffle: true
+  no_image_normalization: false
+  batch_size: 256
+}
+dataset {
+  name: "Validation"
+  uri: "C:\\workspace\\sscurve_estimation\\label\\sscurve_eval2d.csv"
+  cache_dir: "C:\\workspace\\sscurve_estimation\\label\\sscurve_eval2d.cache"
+  overwrite_cache: true
+  create_cache_explicitly: true
+  shuffle: false
+  no_image_normalization: false
+  batch_size: 256
+}
+optimizer {
+  start_iter: 0
+  end_iter: 0
+  name: "Optimizer"
+  update_interval: 1
+  network_name: "Main"
+  dataset_name: "Training"
+  solver {
+    type: "Adam"
+    weight_decay: 0
+    adam_param {
+      alpha: 0.001
+      beta1: 0.9
+      beta2: 0.999
+      eps: 1e-08
+    }
+    lr_scheduler_type: "Exponential"
+    exponential_scheduler_param {
+      gamma: 1
+      iter_interval: 208
+    }
+    lr_decay: 1
+    lr_decay_interval: 208
+    lr_warmup_scheduler_type: "None"
+  }
+  data_variable {
+    variable_name: "Input"
+    data_name: "x"
+  }
+  data_variable {
+    variable_name: "Input_2"
+    data_name: "r"
+  }
+  data_variable {
+    variable_name: "SquaredError_3_T"
+    data_name: "e"
+  }
+  data_variable {
+    variable_name: "SquaredError_T"
+    data_name: "s"
+  }
+  loss_variable {
+    variable_name: "SquaredError_3"
+  }
+  loss_variable {
+    variable_name: "SquaredError"
+  }
+  parameter_variable {
+    variable_name: "Convolution/conv/W"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Convolution/conv/b"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization/bn/beta"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization/bn/gamma"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization/bn/mean"
+    learning_rate_multiplier: 0
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization/bn/var"
+    learning_rate_multiplier: 0
+  }
+  parameter_variable {
+    variable_name: "Convolution_2/conv/W"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Convolution_2/conv/b"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization_2/bn/beta"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization_2/bn/gamma"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization_2/bn/mean"
+    learning_rate_multiplier: 0
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization_2/bn/var"
+    learning_rate_multiplier: 0
+  }
+  parameter_variable {
+    variable_name: "Convolution_3/conv/W"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Convolution_3/conv/b"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization_7/bn/beta"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization_7/bn/gamma"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization_7/bn/mean"
+    learning_rate_multiplier: 0
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization_7/bn/var"
+    learning_rate_multiplier: 0
+  }
+  parameter_variable {
+    variable_name: "Affine_2/affine/W"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Affine_2/affine/b"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Affine_3/affine/W"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Affine_3/affine/b"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Affine_6/affine/W"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Affine_6/affine/b"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Affine_7/affine/W"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Affine_7/affine/b"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Affine_5/affine/W"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Affine_5/affine/b"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Affine_4/affine/W"
+    learning_rate_multiplier: 1
+  }
+  parameter_variable {
+    variable_name: "Affine_4/affine/b"
+    learning_rate_multiplier: 1
+  }
+}
+monitor {
+  name: "train_error"
+  network_name: "MainValidation"
+  dataset_name: "Training"
+  data_variable {
+    variable_name: "Input"
+    data_name: "x"
+  }
+  data_variable {
+    variable_name: "Input_2"
+    data_name: "r"
+  }
+  data_variable {
+    variable_name: "SquaredError_3_T"
+    data_name: "e"
+  }
+  data_variable {
+    variable_name: "SquaredError_T"
+    data_name: "s"
+  }
+  monitor_variable {
+    type: "Error"
+    variable_name: "SquaredError_3"
+  }
+  monitor_variable {
+    type: "Error"
+    variable_name: "SquaredError"
+  }
+}
+monitor {
+  name: "valid_error"
+  network_name: "MainValidation"
+  dataset_name: "Validation"
+  data_variable {
+    variable_name: "Input"
+    data_name: "x"
+  }
+  data_variable {
+    variable_name: "Input_2"
+    data_name: "r"
+  }
+  data_variable {
+    variable_name: "SquaredError_3_T"
+    data_name: "e"
+  }
+  data_variable {
+    variable_name: "SquaredError_T"
+    data_name: "s"
+  }
+  monitor_variable {
+    type: "Error"
+    variable_name: "SquaredError_3"
+  }
+  monitor_variable {
+    type: "Error"
+    variable_name: "SquaredError"
+  }
+}
+executor {
+  name: "Executor"
+  network_name: "MainRuntime"
+  num_evaluations: 1
+  repeat_evaluation_type: "mean"
+  need_back_propagation: false
+  no_image_normalization: false
+  data_variable {
+    variable_name: "Input"
+    data_name: "x"
+  }
+  data_variable {
+    variable_name: "Input_2"
+    data_name: "r"
+  }
+  output_variable {
+    variable_name: "Affine_4"
+    data_name: "e'"
+  }
+  output_variable {
+    variable_name: "Affine_5"
+    data_name: "s'"
+  }
+  parameter_variable {
+    variable_name: "Convolution/conv/W"
+  }
+  parameter_variable {
+    variable_name: "Convolution/conv/b"
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization/bn/beta"
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization/bn/gamma"
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization/bn/mean"
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization/bn/var"
+  }
+  parameter_variable {
+    variable_name: "Convolution_2/conv/W"
+  }
+  parameter_variable {
+    variable_name: "Convolution_2/conv/b"
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization_2/bn/beta"
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization_2/bn/gamma"
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization_2/bn/mean"
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization_2/bn/var"
+  }
+  parameter_variable {
+    variable_name: "Convolution_3/conv/W"
+  }
+  parameter_variable {
+    variable_name: "Convolution_3/conv/b"
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization_7/bn/beta"
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization_7/bn/gamma"
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization_7/bn/mean"
+  }
+  parameter_variable {
+    variable_name: "BatchNormalization_7/bn/var"
+  }
+  parameter_variable {
+    variable_name: "Affine_2/affine/W"
+  }
+  parameter_variable {
+    variable_name: "Affine_2/affine/b"
+  }
+  parameter_variable {
+    variable_name: "Affine_3/affine/W"
+  }
+  parameter_variable {
+    variable_name: "Affine_3/affine/b"
+  }
+  parameter_variable {
+    variable_name: "Affine_6/affine/W"
+  }
+  parameter_variable {
+    variable_name: "Affine_6/affine/b"
+  }
+  parameter_variable {
+    variable_name: "Affine_7/affine/W"
+  }
+  parameter_variable {
+    variable_name: "Affine_7/affine/b"
+  }
+  parameter_variable {
+    variable_name: "Affine_5/affine/W"
+  }
+  parameter_variable {
+    variable_name: "Affine_5/affine/b"
+  }
+  parameter_variable {
+    variable_name: "Affine_4/affine/W"
+  }
+  parameter_variable {
+    variable_name: "Affine_4/affine/b"
+  }
+}
