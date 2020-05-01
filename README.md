@@ -74,8 +74,7 @@ ex) ./nnc_proj/model.nnp
 #### Training NN
 - If you want to train our NN using the datasets provided in this project, you need to do the following procedures:
 
-1. You can download the datasets from Yamanaka research group@TUAT.
-<!-- TODO: ダウンロード先のリンクなどがあれば貼る -->
+1. You can download the datasets from <a href="http://web.tuat.ac.jp/~yamanaka/opendata.html">Yamanaka research group@TUAT</a>.
 1. Save the datasets in the directory named "./trainingdata/".
 1. Run "create_dataset.py" by using the following command, then you can create csv files which can be used in NNC.
 - CSV file for training is saved in "./label/sscurve_train.csv".
