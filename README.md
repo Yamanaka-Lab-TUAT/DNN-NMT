@@ -121,6 +121,7 @@ ex) Export → NNP (Neural Network Libraries file format)
 1. For the case shown in the above figure, the exported file is saved in the training result folder and is named as "model.nnp”.
 
 
+<a id="9"></a>
 #### Estimation of biaxial stress-strain curves using trained NN
 - You can estimate biaxial stress-strain curves using the trained NN by following procedures:
 
@@ -140,7 +141,9 @@ nn.parameter.load_parameters('NNCで作成したニューラルネットワー�
 
 1. Run "drawSScurve.py" and then you obtain biaxial stress-strain curves.
 
+<a id="10"></a>
 ## Licence
 
+<a id="11"></a>
 ## Author
 [Yamanaka Research Group @ TUAT](http://web.tuat.ac.jp/~yamanaka/)
