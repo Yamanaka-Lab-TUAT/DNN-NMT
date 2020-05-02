@@ -2,7 +2,7 @@
 -----
 <a id="1"></a>
 ## Description
-The Deep Neural Network-based Numerical Material Test (DNN-NMT) project provides neural network (NN) structure and datasets for estimating biaxial stress-strain curves of aluminum alloy sheets from a pole figure image of crystallographic texture. The NN provided in this project can be used on <a href="https://dl.sony.com/ja/app/">Neural Network Console</a> (NNC) developed by Sony Network Communications Inc.<br>
+The Deep Neural Network-based Numerical Material Test (DNN-NMT) project provides the neural network (NN) structure (named DNN-2D [1]), the training parameters and the datasets for estimating biaxial stress-strain curves of aluminum alloy sheets from a pole figure image of crystallographic texture. The NN provided in this project can be used on <a href="https://dl.sony.com/ja/app/">Neural Network Console</a> (NNC) developed by Sony Network Communications Inc.<br>
 
 ## Publications
 1. K. Koenuma, A. Yamanaka, Ikumu Watanabe and Toshihiko Kuwabara, "Estimation of texture-dependent stress－strain curve and r-value of aluminum alloy sheet using deep learning", Journal of Japan Society for Technology of Plasticity, Vol. 61 No. 709 (2020), pp. 48-55. (in Japanese) <a href="https://doi.org/10.9773/sosei.61.48">doi.org/10.9773/sosei.61.48</a>
@@ -13,7 +13,7 @@ The Deep Neural Network-based Numerical Material Test (DNN-NMT) project provides
 1. [Requirements](#2)
 1. [Demonstration](#3)
 1. [Usage](#4)
-    1. [Importing our NN to NNC](#5)
+    1. [Importing trained NN to NNC](#5)
     1. [Training NN](#6)
     1. [Re-training NN (Transfer learning)](#7)
     1. [Exporting trained NN](#8)
@@ -25,7 +25,7 @@ The Deep Neural Network-based Numerical Material Test (DNN-NMT) project provides
 ## Requirements
 - Neural Network Console can be used on Windows 10. Please see: https://dl.sony.com/ja/app/
 - Installation of Neural Network Console can be found: https://dl.sony.com/ja/app/
-- Our trained NN has been tested using Python3.6.
+- The trained NN provided in this project has been tested using Python3.6.
 - If you want to try [Demonstration](#3), you need to do the following procedures:
 
 1. If you use use Anaconda (or Miniconda) environment, you need to do:
@@ -53,8 +53,8 @@ python drawSScurve.py
 0. Overall usege of NNC please see: https://support.dl.sony.com/docs/
 
 <a id="5"></a>
-#### Importing our NN to NNC
-- You can use the layer structure of our NN and the training parameters by importing "nntxt" file to NNC.
+#### Importing trained NN to NNC
+- You can use the NN and the training parameters provided in this project by importing "nntxt" file to NNC.
 
 1. Launch NNC and select "New Project". <br>
 ![Fig1](./doc/fig1.png "Fig. 1")
@@ -72,7 +72,7 @@ ex) ./nnc_proj/model.nnp
 
 <a id="6"></a>
 #### Training NN
-- If you want to train our NN using the datasets provided in this project, you need to do the following procedures:
+- If you want to train the NN using the datasets provided in this project, you need to do the following procedures:
 
 1. You can download the datasets from <a href="http://web.tuat.ac.jp/~yamanaka/opendata.html">Yamanaka research group@TUAT</a>.
 1. Save the datasets in the directory named "./trainingdata/".
@@ -94,12 +94,12 @@ python create_dataset.py
 
 1. Open "CONFIG" tab and enter the values of Max Epoch and Batch Size. For example, you can use Max Epoch = 100 and Batch Size = 8.
 1. Select the optimizing algorithm in "Optimizer" shown in "CONFIG" tab.
-1. Start training of NN by pushing "F5 button".
+1. Start the training of NN by pushing "F5 button".
 
 
 <a id="7"></a>
 #### Re-training NN (Transfer learning)
-- If you want to re-train our NN using your datasets, please do the following procedures:
+- If you want to re-train the NN using your datasets, please do the following procedures:
 
 1. Open "EDIT" tab and select the parameters which you want to fix. For example, you can select convolution and BatchNormalization layers.
 1. Enter 0 (zero) to "...LRateMultiplier" shown in the property of the selected laters. This prevents to change the parameters used in the trained NN.
