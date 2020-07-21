@@ -129,6 +129,10 @@ nn.parameter.load_parameters('./nnc_proj/model.nnp')  # modify here
 
 1. Run "drawSScurve.py" and then you obtain the estimated biaxial stress-strain curves.
 
+<a id="10"></a>
+## License
+BSD License (3-clause BSD License)
+
 <a id="11"></a>
 ## Author
 [Yamanaka Research Group @ TUAT](http://web.tuat.ac.jp/~yamanaka/)
