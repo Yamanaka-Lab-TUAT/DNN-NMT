@@ -47,8 +47,8 @@ python drawSScurve.py
 0. Overall usege of NNC please see: https://support.dl.sony.com/docs/
 
 <a id="5"></a>
-#### Importing trained NN to NNC
-- You can use the NN and the training parameters provided in this project by importing "nntxt" file to NNC.
+#### Importing the trained NN to NNC
+- You can use the trained NN structure and the training parameters provided in this project by importing "nntxt" or "nnp" file to NNC: 
 
 1. Launch NNC and select "New Project". <br>
 ![Fig1](./doc/fig1.png "Fig. 1")
@@ -56,13 +56,10 @@ python drawSScurve.py
 2. Open "EDIT" tab and select "Import → nntxt, nnp, ONNX" by right-clicking a network graph.
 ![Fig. 2](./doc/fig2.png "Fig. 2")
 
-3. Read "nntxt" file. <br>
-ex) ./nnc_proj/model.nnp
+3. Read "nntxt" file if you want to use the trained NN structure. Note that if you want to use both the trained NN structure and the training parameters, read "nnp" file. <br>
+ex) ./nnc_proj/net.nntxt
 
 4. If the name of imported NN is "MainRuntime", modify the name as "Main". <br>
-
-- You can import the layer structure of NN and the training parameters used for the training by importing "nnp" file to NNC.
-
 
 <a id="6"></a>
 #### Training NN
@@ -92,51 +89,45 @@ python create_dataset.py
 
 
 <a id="7"></a>
-#### Re-training NN (Transfer learning)
+#### Re-training NN
 - If you want to re-train the NN using your datasets, please do the following procedures:
 
 1. Open "EDIT" tab and select the parameters which you want to fix. For example, you can select convolution and BatchNormalization layers.
-1. Enter 0 (zero) to "...LRateMultiplier" shown in the property of the selected laters. This prevents to change the parameters used in the trained NN.
+1. Enter 0 (zero) to "...LRateMultiplier" shown in the property of the selected layers. This prevents to change the parameters used in the trained NN.
 ![Fig. 5](./doc/fig5.png "Fig. 5")
 
+1. Prepare your dataset by referring to <a href="https://doi.org/10.1016/j.matdes.2020.108970">our paper</a> and "create_dataset.py". 
 1. Load your datasets from "DATASET" tab and start training.
-1. <!-- TODO: 実験データのデータ構造に関する仕様を決めて，実験データから訓練データを作成するスクリプトをかく -->
-1. Please see https://support.dl.sony.com/docs-ja/ for the training procedure.
-
+1. Please see https://support.dl.sony.com/docs/ for the training procedure.
 
 <a id="8"></a>
 #### Exporting trained NN
-- You can export the trained NN by following procedures:
+- You can export the trained NN structure and the trained parameters by following procedures:
 
-1. Open "TRAINING" tab and select "Export" by right-clicking the Results History. Then, you can select the format. <br>
+1. Open "TRAINING" tab and select "Export" by right-clicking the Results History. Then, you can select the nnp file. <br>
 ex) Export → NNP (Neural Network Libraries file format)
 ![Fig. 6](./doc/fig6.png "Fig. 6")
 
-1. For the case shown in the above figure, the exported file is saved in the training result folder and is named as "model.nnp”.
+1. For the case shown in the above figure, the exported file is saved in the training result folder and the file is named as "model.nnp”.
 
 
 <a id="9"></a>
-#### Estimation of biaxial stress-strain curves using trained NN
-- You can estimate biaxial stress-strain curves using the trained NN by following procedures:
+#### Estimation of biaxial stress-strain curves using the trained NN
+- You can estimate the biaxial stress-strain curves using the trained NN by following procedures:
 
-1. Open "EDIT" tab and select the NN structure by right-clicking.
+1. Open "EDIT" tab and select the trained NN structure by right-clicking.
 1. Select "Export → Python Code (NNabla)" and, then, Python code for the trained NN is copied to Clipboad. Note that you need to delete the loss function layers.
 ![Fig. 7](./doc/fig7.png "Fig. 7")
 
-3. Create a python script named as "[project_name_of_NNC].py" in the directory "./nnc_proj" and paste the python code copied in the above Step 2.
+3. Create a python script named as "[project_name_of_NNC].py" in the directory "./nnc_proj" and paste the python code copied in the Step 2.
 4. Edit "estimate.py" provided in this project so that you can use the NN named "[project_name_of_NNC].py".
 ```python
-# from nnc_proj.model import network  # ここを変える
-from nnc_proj.project_name_of_NNC import network
+from nnc_proj.model import network  # modify here
 nn.clear_parameters()
-# nn.parameter.load_parameters('./nnc_proj/model.nnp')  # ここを変える
-nn.parameter.load_parameters('NNCで作成したニューラルネットワークパラメータのファイル.nnp')
+nn.parameter.load_parameters('./nnc_proj/model.nnp')  # modify here
 ```
 
-1. Run "drawSScurve.py" and then you obtain biaxial stress-strain curves.
-
-<a id="10"></a>
-## Licence
+1. Run "drawSScurve.py" and then you obtain the estimated biaxial stress-strain curves.
 
 <a id="11"></a>
 ## Author
