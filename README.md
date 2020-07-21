@@ -2,11 +2,11 @@
 -----
 <a id="1"></a>
 ## Description
-The Deep Neural Network-based Numerical Material Test (DNN-NMT) project provides the neural network (NN) structure (named DNN-2D [1]), the training parameters and the datasets for estimating biaxial stress-strain curves of aluminum alloy sheets from a pole figure image of crystallographic texture. The NN provided in this project can be used on <a href="https://dl.sony.com/ja/app/">Neural Network Console</a> (NNC) developed by Sony Network Communications Inc.<br>
+The Deep Neural Network-based Numerical Material Test (DNN-NMT) project provides the neural network (NN) structure (named DNN-2D), the training parameters and the datasets for estimating biaxial stress-strain curves of aluminum alloy sheets from a pole figure image of crystallographic texture. The NN provided in this project can be used on <a href="https://dl.sony.com/ja/app/">Neural Network Console</a> (NNC) developed by Sony Network Communications Inc.<br>
 
 ## Publications
 1. K. Koenuma, A. Yamanaka, Ikumu Watanabe and Toshihiko Kuwabara, "Estimation of texture-dependent stress－strain curve and r-value of aluminum alloy sheet using deep learning", Journal of Japan Society for Technology of Plasticity, Vol. 61 No. 709 (2020), pp. 48-55. (in Japanese) <a href="https://doi.org/10.9773/sosei.61.48">doi.org/10.9773/sosei.61.48</a>
-2. A. Yamanaka, R. Kamijyo, K. Koenuma, I. Watanabe and T. Kuwabara, "Deep neural network approach to estimate biaxial stress-strain curves of sheet metals", in preparation
+2. A. Yamanaka, R. Kamijyo, K. Koenuma, I. Watanabe and T. Kuwabara, "Deep neural network approach to estimate biaxial stress-strain curves of sheet metals", Materials & Design, (2020), in print. <a href="https://doi.org/10.1016/j.matdes.2020.108970">https://doi.org/10.1016/j.matdes.2020.108970</a>
 
 ## Contens
 1. [Description](#1)
@@ -15,7 +15,7 @@ The Deep Neural Network-based Numerical Material Test (DNN-NMT) project provides
 1. [Usage](#4)
     1. [Importing trained NN to NNC](#5)
     1. [Training NN](#6)
-    1. [Re-training NN (Transfer learning)](#7)
+    1. [Re-training NN](#7)
     1. [Exporting trained NN](#8)
     1. [Estimation of biaxial stress-strain curves using trained NN](#9)
 1. [Licence](#10)
@@ -23,18 +23,12 @@ The Deep Neural Network-based Numerical Material Test (DNN-NMT) project provides
 
 <a id="2"></a>
 ## Requirements
-- Neural Network Console can be used on Windows 10. Please see: https://dl.sony.com/ja/app/
-- Installation of Neural Network Console can be found: https://dl.sony.com/ja/app/
+- Neural Network Console can be used on Windows 10. Please see: https://dl.sony.com/app/
+- Installation of Neural Network Console can be found: https://dl.sony.com/app/
 - The trained NN provided in this project has been tested using Python3.6.
 - If you want to try [Demonstration](#3), you need to do the following procedures:
 
-1. If you use use Anaconda (or Miniconda) environment, you need to do:
-```bach
-conda env create --file nnc_env.yaml
-conda activate nnc_env
-```
-
-2.  If you do NOT use Anaconda (or Miniconda) environment, you need to install the following libraries:
+1.  You need to install the following libraries:
 ```bash
 pip install numpy matplotlib scipy
 pip install nnabla
@@ -43,7 +37,7 @@ pip install nnabla
 <a id="3"></a>
 ## Demonstration
 - If you try this demonstration on your computer, please see [Requirements](#2).
-- You can run our trained NN using the following command and estimate biaxial stress-strain curves.
+- You can run the trained NN using the following command and estimate biaxial stress-strain curves.
 ```bash
 python drawSScurve.py
 ```
