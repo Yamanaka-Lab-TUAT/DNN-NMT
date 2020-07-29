@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import numpy as np
 from scipy import interpolate
@@ -16,11 +17,17 @@ traindata_dir = './trainingdata/train/'
 evaldata_dir = './trainingdata/eval/'
 
 test_listdir = os.listdir(testdata_dir + 'texture/')
-train_listdir = os.listdir(traindata_dir + 'texture/')
-eval_listdir = os.listdir(evaldata_dir + 'texture/')
+train_listdir = list()
+eval_listdir = list()
+try:
+    train_listdir = os.listdir(traindata_dir + 'texture/')
+    eval_listdir = os.listdir(evaldata_dir + 'texture/')
+except FileNotFoundError as e:
+    print(e)
+    print('Training data does not exist.')
 
-image_dir = '../trainingdata/data/image/'
-sscurve_dir = '../trainingdata/data/'
+image_dir = './trainingdata/data/image/'
+sscurve_dir = './trainingdata/data/'
 
 ratios = {'1_0': 0., '4_1': 0.125, '2_1': 0.250, '4_3': 0.375,
           '1_1': 0.5, '3_4': 0.625, '1_2': 0.75, '1_4': 0.875, '0_1': 1}
@@ -65,7 +72,16 @@ def get_sscurve(ratio, tex_info, data_type):
 
 
 def normalized_sscurve(ratio, tex_info, data_type):
-    # load data from numerical biaxial tensile test
+    """ load data from numerical biaxial tensile test
+
+    Args:
+        ratio (srting): ex) 1_1
+        tex_info (string): ex) 0_02011_01005_02007_01003_03010
+        data_type (DataType): ex) DataType.train
+
+    Returns:
+        array_like : normalized ss curve
+    """
     e, s = get_sscurve(ratio, tex_info, data_type)
     x1 = e[:, 0]
     y1 = s[:, 0]

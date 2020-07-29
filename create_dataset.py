@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import csv
 import numpy as np
@@ -5,9 +6,10 @@ import rawdata as rdat
 from rawdata import Datatype
 from tex_util import Texture
 
+
 dat_path = rdat.sscurve_dir
 
-save_dir = './label/'  # Path where to save the label
+save_dir = './label/'  # Path where to save the label for NNC
 
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
@@ -66,7 +68,7 @@ def create_teacher_data():
                        vector, comments='', delimiter=",")
             cnt += 1
     print('finish ss curve train')
-    # evaluation data
+    # validation data
     cnt = 0
     for ratio in rdat.ratios:
         for lt in rdat.eval_listdir:
@@ -108,20 +110,20 @@ def createdataset():
                 tex_info = lt.rstrip('.txt')
                 saveTexName = str(cnt) + '_' + tex_info[2:]
                 train_sscurve_label.append(
-                    [rdat.image_dir + "data_" + saveTexName + '.png',
+                    ['.' + rdat.image_dir + "data_" + saveTexName + '.png',
                      val,
-                     dat_path + "%s/curve/data_" % ratio + tex_info + ".csv",
-                     dat_path + "%s/vector/data_" % ratio + tex_info + ".csv"])
+                     '.' + dat_path + "%s/curve/data_" % ratio + tex_info + ".csv",
+                     '.' + dat_path + "%s/vector/data_" % ratio + tex_info + ".csv"])
     ev_cnt = 0
     for ratio, val in rdat.ratios.items():
         for lt in rdat.eval_listdir:
             ev_cnt += 1
             tex_info = lt.rstrip('.txt')
             eval_sscurve_label.append(
-                [rdat.image_dir + "data_" + tex_info + '.png',
+                ['.' + rdat.image_dir + "data_" + tex_info + '.png',
                  val,
-                 dat_path + "%s/curve/data_" % ratio + tex_info + ".csv",
-                 dat_path + "%s/vector/data_" % ratio + tex_info + ".csv"])
+                 '.' + dat_path + "%s/curve/data_" % ratio + tex_info + ".csv",
+                 '.' + dat_path + "%s/vector/data_" % ratio + tex_info + ".csv"])
     save_sscurve_dataset(save_dir + 'sscurve_train.csv', train_sscurve_label)
     save_sscurve_dataset(save_dir + 'sscurve_eval.csv', eval_sscurve_label)
     print('ss curve Train    : ' + str(tr_cnt) + ' data')
