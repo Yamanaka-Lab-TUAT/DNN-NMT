@@ -123,7 +123,7 @@ ex) Export → NNP (Neural Network Libraries file format)
 ![Fig. 7](./doc/fig7.png "Fig. 7")
 
 3. Create a python script named as "[project_name_of_NNC].py" in the directory "./nnc_proj" and paste the python code copied in the Step 2.
-4. Edit "estimate.py" provided in this project so that you can use the NN named "[project_name_of_NNC].py".
+4. Edit "dnn2d.py" provided in this project so that you can use the NN named "[project_name_of_NNC].py".
 ```python
 from nnc_proj.model import network  # modify here
 nn.clear_parameters()
