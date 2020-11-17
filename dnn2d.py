@@ -10,10 +10,6 @@ from nnc_proj.model import network
 nn.clear_parameters()
 nn.parameter.load_parameters('./nnc_proj/model.nnp')
 
-x = nn.Variable((1, 1, 128, 128))
-x2 = nn.Variable((1, 1))
-y1, y2 = network(x, x2, test=True)
-
 ratios = rdat.ratios
 mvec = rdat.max_vector
 
