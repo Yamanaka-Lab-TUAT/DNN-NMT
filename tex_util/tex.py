@@ -1,4 +1,17 @@
 # -*- coding: utf-8 -*-
+"""
+Cube  : Recrystallization, Annealing
+Goss  : Recrystallization, Annealing, Hot rolling
+S     : Rolling, (Also called as R-texture)
+Brass : Rolling
+Copper: Rolling
+---
+P     : Recrystallization,
+        memo: P-texture {110}<122> in Al-Cu-Mg alloys is not a common texture
+        component like Cube, Goss or Brass. [Y. Hu, et al.,
+        "P-Texture Effect on the Fatigue Crack Propagation Resistance
+        in an Al-Cu-Mg Alloy Bearing a Small Amount of Silver" (2018)]
+"""
 import numpy as np
 from PIL import Image
 from tex_util import conv
@@ -6,14 +19,16 @@ from tex_util import extract
 from tex_util.sym import equivalent
 
 preferred_orientation = {
+    'Goss': equivalent([90, 90, 45], False),
     'S': np.concatenate((equivalent([59, 37, 63], False),
                          equivalent([53, 75, 34], False),
                          equivalent([27, 58, 18], False))),
-    'Goss': equivalent([90, 90, 45], False),
     'Brass': np.concatenate((equivalent([35, 45, 90], False),
                              equivalent([55, 90, 45], False))),
     'Copper': np.concatenate((equivalent([90, 35, 45], False),
-                              equivalent([39, 66, 27], False)))
+                              equivalent([39, 66, 27], False))),
+    'P': np.concatenate((equivalent([19., 90., 45.], False),
+                         equivalent([71., 45., 0.], False)))
 }
 
 
@@ -29,12 +44,13 @@ def parse(tex_info):
     copper_v = int(tex_info[26:29])
     copper_s = int(tex_info[29:31])
     rand_vol = 100 - (cube_v + s_v + goss_v + brass_v + copper_v)
-    return np.array([cube_v, s_v, goss_v, brass_v, copper_v, rand_vol]), np.array([cube_s, s_s, goss_s, brass_s, copper_s])
+    return np.array([cube_v, s_v, goss_v, brass_v, copper_v, rand_vol]),\
+        np.array([cube_s, s_s, goss_s, brass_s, copper_s])
 
 
-def gauss():
+def gauss(grain_num=1000):
     d = np.random.multivariate_normal(
-        [0, 0, 0], [[1, 0, 0], [0, 1, 0], [0, 0, 1]], 100)
+        [0, 0, 0], [[1, 0, 0], [0, 1, 0], [0, 0, 1]], grain_num)
     spl = np.array([-1.2815514e+00,
                     -8.41621007e-01,
                     -5.24401007e-01,
@@ -57,7 +73,7 @@ def gauss():
                 N[i] = len(np.where(r[a] <= spl[i])[0])
         n = np.sum((len(r) / 10 - N) ** 2 / (len(r) / 10))
         if n > 14.7:
-            gauss()
+            gauss(grain_num)
     return d
 
 
@@ -65,7 +81,7 @@ class orientation(object):
     @staticmethod
     def unit(ss, c):
         s0 = 2. / 3.
-        vol = 100
+        vol = 1000
         R = np.zeros([3, 3])
         if c == 0:
             R = np.array([[-1.414, 0, 1.414],
@@ -99,22 +115,40 @@ class orientation(object):
         return np.concatenate((texture, texture0))
 
     @staticmethod
-    def generate_pseudoTex(ss, vol, ori):
+    def generate_pseudoTex(ss, grain_num, ori):
         """Method giving a three-dimensional Gaussian distribution to preferred orientation
+
         Arguments:
             ss {[type]} -- Dispersion angle
-            vol {int} -- Volume fraction
+            vol {int} -- Grain number
             ori {array_like} -- Preferred orientation considering symmetry
         Returns:
             [array_like] -- preferred orientation with a three-dimensional Gaussian distribution
         """
-        if int(vol + 0.5) == 0:
+        grain_num = int(grain_num + 0.5)
+        # if grain_num == 0:
+        #     return np.empty((0, 3))
+        # tmp = np.empty((0, 3))
+        # for _ in range(int(grain_num / ori.shape[0]) + 1):
+        #     for i in range(ori.shape[0]):
+        #         w = np.random.normal() * ss
+        #         a = np.random.uniform(size=3)
+        #         a[0] = a[0] * (1 if np.random.uniform() < 0.5 else -1)
+        #         a[1] = a[1] * (1 if np.random.uniform() < 0.5 else -1)
+        #         a[2] = a[2] * (1 if np.random.uniform() < 0.5 else -1)
+        #         # a = a / np.linalg.norm(a)
+        #         R = conv.rodrigues(a, w, rounding=False)
+        #         buf = np.dot(R, ori[i])
+        #         tmp = np.concatenate((tmp, np.atleast_2d(buf)))
+        # return extract.method['random'](tmp, grain_num)
+
+        if grain_num == 0:
             return np.empty((0, 3))
         tmp = np.empty((0, 3))
         for i in range(ori.shape[0]):
             buf = gauss() * np.sqrt(ss) + ori[i]
             tmp = np.concatenate((tmp, buf))
-        return extract.method['random'](tmp, int(vol + 0.5))
+        return extract.method['random'](tmp, grain_num)
 
     @staticmethod
     def random(vol):
@@ -139,30 +173,49 @@ class orientation(object):
 
     @classmethod
     def goss(cls, ss, vol):
-        G = preferred_orientation['Goss']
-        return cls.generate_pseudoTex(ss, int(vol + 0.5), G)
+        _G = preferred_orientation['Goss']
+        return cls.generate_pseudoTex(ss, int(vol + 0.5), _G)
 
     @classmethod
     def brass(cls, ss, vol):
-        B = preferred_orientation['Brass']
-        return cls.generate_pseudoTex(ss, int(vol + 0.5), B)
+        _B = preferred_orientation['Brass']
+        return cls.generate_pseudoTex(ss, int(vol + 0.5), _B)
 
     @classmethod
     def copper(cls, ss, vol):
-        Cu = preferred_orientation['Copper']
-        return cls.generate_pseudoTex(ss, int(vol + 0.5), Cu)
+        _Cu = preferred_orientation['Copper']
+        return cls.generate_pseudoTex(ss, int(vol + 0.5), _Cu)
 
     @classmethod
     def S(cls, ss, vol):
-        S = preferred_orientation['S']
-        return cls.generate_pseudoTex(ss, int(vol + 0.5), S)
+        _S = preferred_orientation['S']
+        return cls.generate_pseudoTex(ss, int(vol + 0.5), _S)
+
+    @classmethod
+    def P(cls, ss, vol):
+        _P = preferred_orientation['P']
+        return cls.generate_pseudoTex(ss, int(vol + 0.5), _P)
 
 
 class Texture(object):
-    def __init__(self, volume=1000, texture=np.empty((0, 3))):
+    def __init__(self, volume=1000, texture=np.empty((0, 3)), tex_info=None):
         self.tex_data = texture
         self.vol = volume
-        self.vol_max = volume
+        self.vol_max = 10000
+        if tex_info is None:
+            return
+        self.texture = np.empty((0, 3))
+        if isinstance(tex_info, str):
+            v, z = parse(tex_info)
+        else:
+            v = tex_info[0, :]
+            z = tex_info[1, :]
+        self.addCube(z[0], v[0])
+        self.addS(z[1], v[1])
+        self.addGoss(z[2], v[2])
+        self.addBrass(z[3], v[3])
+        self.addCopper(z[4], v[4])
+        self.addRandom(v[5])
 
     def __clamp(self, val, max_val=255, min_val=0):
         val[val > max_val] = max_val
@@ -181,6 +234,9 @@ class Texture(object):
     def addS(self, ss, percentage):
         self.add(orientation.S(ss, self.vol_max * percentage / 100.))
 
+    def addP(self, ss, percentage):
+        self.add(orientation.P(ss, self.vol_max * percentage / 100.))
+
     def addGoss(self, ss, percentage):
         self.add(orientation.goss(ss, self.vol_max * percentage / 100.))
 
@@ -192,7 +248,8 @@ class Texture(object):
 
     def pole_figure(self, direct=np.array([1, 1, 1]), invert=False,
                     denominator=10, img_size=128, method='random'):
-        """Positive pole figure
+        """ Positive pole figure
+
         Keyword Arguments:
             direct {array_like} -- Direction of projection plane (default: {np.array([1, 1, 1])})
             denominator {int} -- N (default: {10})
@@ -205,15 +262,16 @@ class Texture(object):
         stereo = np.array([stereo / 2. * img_size / 2. + img_size / 2.], dtype="uint8")
         img = np.zeros([img_size, img_size])
         for i, j in stereo[0]:
-            img[i, j] += 1
-        img = img / denominator * 255.0 if denominator != 0 else np.ceil(img) * 255
+            img[i, j] += 1.
+        img = img / float(denominator) * 255. if denominator > 0 else np.ceil(img) * 255.
         self.__clamp(img)
         if invert:
-            img = np.ones([img_size, img_size]) * 255 - img
+            img = np.ones([img_size, img_size]) * 255. - img
         return img
 
     def sample(self, method='random'):
         """Extract crystal orientation
+
         Keyword Arguments:
             method {str} -- Extract method (default: {'random'})
         Returns:
@@ -254,13 +312,14 @@ class Texture(object):
             direct, invert, denominator, img_size, method)))
         pil.save(file_name)
 
-    def fromtxt(self, tex_info_path):
+    @classmethod
+    def fromtxt(cls, tex_info_path):
         data = np.genfromtxt(tex_info_path, delimiter='')
         phi1 = data[:, 2]
         phi = data[:, 3]
         phi2 = data[:, 4]
-        self.tex_data = np.array([phi1, phi, phi2]).T
-        return self
+        cls.tex_data = np.array([phi1, phi, phi2]).T
+        return cls
 
 
 if __name__ == '__main__':

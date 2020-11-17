@@ -16,13 +16,14 @@ testdata_dir = './trainingdata/test/'
 traindata_dir = './trainingdata/train/'
 evaldata_dir = './trainingdata/eval/'
 
-test_listdir = os.listdir(testdata_dir + 'texture/')
+test_listdir = list()
 train_listdir = list()
 eval_listdir = list()
 try:
     train_listdir = os.listdir(traindata_dir + 'texture/')
+    test_listdir = os.listdir(testdata_dir + 'texture/')
     eval_listdir = os.listdir(evaldata_dir + 'texture/')
-except FileNotFoundError as e:
+except WindowsError as e:
     print(e)
     print('Training data does not exist.')
 

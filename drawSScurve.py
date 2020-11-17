@@ -1,16 +1,16 @@
 import numpy as np
 from matplotlib import pyplot as plt
 import rawdata as rdat
-from estimate import calcAllRoots
+import dnn2d
 
 
-def draw(ax, e, s, x_vec, y_vec, std, ratio, skipping=False, show_std=False):
+def draw(ax, x_vec, y_vec, std, ratio, skipping=False, show_std=False):
     if skipping:
         x_vec = x_vec[::2]
         y_vec = y_vec[::2]
         std = std[::2]
     if ratio == '1_0':
-        ax.plot(e[:, 0], s[:, 0], 'k-', linewidth=0.5)
+        # ax.plot(e[:, 0], s[:, 0], 'k-', linewidth=0.5)
         if not (x_vec is None or y_vec is None):
             if show_std:
                 ax.fill_between(
@@ -24,7 +24,7 @@ def draw(ax, e, s, x_vec, y_vec, std, ratio, skipping=False, show_std=False):
                     x_vec[:, 0], y_vec[:, 0], 'r-', linewidth=0.7,
                     markeredgewidth=0.5, markersize=1.5)
     elif ratio == '0_1':
-        ax.plot(e[:, 1], s[:, 1], 'k--', linewidth=0.5)
+        # ax.plot(e[:, 1], s[:, 1], 'k--', linewidth=0.5)
         if not (x_vec is None or y_vec is None):
             if show_std:
                 ax.fill_between(
@@ -37,8 +37,8 @@ def draw(ax, e, s, x_vec, y_vec, std, ratio, skipping=False, show_std=False):
                 ax.plot(x_vec[:, 1], y_vec[:, 1], 'r--', linewidth=0.7,
                         markeredgewidth=0.5, markersize=1.5)
     else:
-        ax.plot(e[:, 0], s[:, 0], 'k-', linewidth=0.5)
-        ax.plot(e[:, 1], s[:, 1], 'k--', linewidth=0.5)
+        # ax.plot(e[:, 0], s[:, 0], 'k-', linewidth=0.5)
+        # ax.plot(e[:, 1], s[:, 1], 'k--', linewidth=0.5)
         if not (x_vec is None or y_vec is None):
             if show_std:
                 ax.fill_between(
@@ -116,7 +116,7 @@ if __name__ == '__main__':
     roots = ['1_0', '4_1', '2_1', '4_3', '1_1', '3_4', '1_2', '1_4', '0_1']
     import time
     start = time.time()
-    strain, stress, std = calcAllRoots(len(roots), texture, 5)
+    strain, stress, std = dnn2d.estimate_sscurve(roots, texture, 5)
     elapsed = time.time() - start
     print('elapsed time: {} [sec]'.format(elapsed))
     true_num = 1
@@ -124,11 +124,8 @@ if __name__ == '__main__':
         cnt = 0
         for axe in axes:
             for ax in axe:
-                ep, sig = rdat.get_sscurve(
-                    roots[cnt], str(i) + texture[1:], data_type=2)
                 if i == true_num - 1:
-                    draw(ax, ep, sig, strain[cnt],
-                         stress[cnt], std[cnt], roots[cnt])
+                    draw(ax, strain[cnt], stress[cnt], std[cnt], roots[cnt])
                 else:
                     draw(ax, ep, sig, None, None, std[cnt], roots[cnt])
                 cnt += 1
