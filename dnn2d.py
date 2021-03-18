@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import nnabla as nn
 import numpy as np
-import rawdata as rdat
+import common.rawdata as rdat
 from tex_util import Texture
 
 """ from nnc_proj.($$project_name_of_nnc) import network """

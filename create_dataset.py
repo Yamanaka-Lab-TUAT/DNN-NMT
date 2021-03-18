@@ -2,8 +2,8 @@
 import os
 import csv
 import numpy as np
-import rawdata as rdat
-from rawdata import Datatype
+import common.rawdata as rdat
+from common.rawdata import Datatype
 from tex_util import Texture
 
 
@@ -44,6 +44,13 @@ def create_image_input():
         raw_data = get_texture(tex_info, data_type=1)
         tex_data = Texture(texture=raw_data)
         tex_data.savePoleFigure(rdat.image_dir + 'data_' + tex_info + '.png')
+
+
+def save_sscurve_dataset(file_name, data):
+    with open(file_name, 'w') as f:
+        writer = csv.writer(f, lineterminator='\n')
+        writer.writerow(["x:input", "r:stressx", "s:curve", "e:vector"])
+        writer.writerows(data)
 
 
 def create_teacher_data():
@@ -92,13 +99,6 @@ def create_teacher_data():
     print('finish input data')
 
 
-def save_sscurve_dataset(file_name, data):
-    with open(file_name, 'w') as f:
-        writer = csv.writer(f, lineterminator='\n')
-        writer.writerow(["x:input", "r:stressx", "s:curve", "e:vector"])
-        writer.writerows(data)
-
-
 def createdataset():
     train_sscurve_label = []
     eval_sscurve_label = []
@@ -110,20 +110,20 @@ def createdataset():
                 tex_info = lt.rstrip('.txt')
                 saveTexName = str(cnt) + '_' + tex_info[2:]
                 train_sscurve_label.append(
-                    ['.' + rdat.image_dir + "data_" + saveTexName + '.png',
+                    [rdat.image_dir + "data_" + saveTexName + '.png',
                      val,
-                     '.' + dat_path + "%s/curve/data_" % ratio + tex_info + ".csv",
-                     '.' + dat_path + "%s/vector/data_" % ratio + tex_info + ".csv"])
+                     dat_path + "%s/curve/data_" % ratio + tex_info + ".csv",
+                     dat_path + "%s/vector/data_" % ratio + tex_info + ".csv"])
     ev_cnt = 0
     for ratio, val in rdat.ratios.items():
         for lt in rdat.eval_listdir:
             ev_cnt += 1
             tex_info = lt.rstrip('.txt')
             eval_sscurve_label.append(
-                ['.' + rdat.image_dir + "data_" + tex_info + '.png',
+                [rdat.image_dir + "data_" + tex_info + '.png',
                  val,
-                 '.' + dat_path + "%s/curve/data_" % ratio + tex_info + ".csv",
-                 '.' + dat_path + "%s/vector/data_" % ratio + tex_info + ".csv"])
+                 dat_path + "%s/curve/data_" % ratio + tex_info + ".csv",
+                 dat_path + "%s/vector/data_" % ratio + tex_info + ".csv"])
     save_sscurve_dataset(save_dir + 'sscurve_train.csv', train_sscurve_label)
     save_sscurve_dataset(save_dir + 'sscurve_eval.csv', eval_sscurve_label)
     print('ss curve Train    : ' + str(tr_cnt) + ' data')
